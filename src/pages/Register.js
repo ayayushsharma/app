@@ -2,25 +2,14 @@ import React, { useState, useRef } from "react";
 import Form from "react-validation/build/form";
 import Input from "react-validation/build/input";
 import CheckButton from "react-validation/build/button";
-import { isEmail } from "validator";
 
-import AuthService from "../services/auth.service";
+import AuthService from "../services/AuthService";
 
 const required = (value) => {
   if (!value) {
     return (
       <div className="invalid-feedback d-block">
         This field is required!
-      </div>
-    );
-  }
-};
-
-const validEmail = (value) => {
-  if (!isEmail(value)) {
-    return (
-      <div className="invalid-feedback d-block">
-        This is not a valid email.
       </div>
     );
   }
@@ -51,7 +40,7 @@ const Register = (props) => {
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [role, setrole] = useState("");
   const [password, setPassword] = useState("");
   const [successful, setSuccessful] = useState(false);
   const [message, setMessage] = useState("");
@@ -61,9 +50,9 @@ const Register = (props) => {
     setUsername(username);
   };
 
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
+  const onChangerole = (e) => {
+    const role = e.target.value;
+    setrole(role);
   };
 
   const onChangePassword = (e) => {
@@ -80,7 +69,7 @@ const Register = (props) => {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      AuthService.register(username, email, password).then(
+      AuthService.register(role, username, password).then(
         (response) => {
           setMessage(response.data.message);
           setSuccessful(true);
@@ -112,6 +101,21 @@ const Register = (props) => {
         <Form onSubmit={handleRegister} ref={form}>
           {!successful && (
             <div>
+
+
+              <div className="form-group">
+                <label htmlFor="role">User Role</label>
+                <Input
+                  type="text"
+                  className="form-control"
+                  name="role"
+                  value={role}
+                  onChange={onChangerole}
+                  validations={[required]}
+                />
+              </div>
+
+
               <div className="form-group">
                 <label htmlFor="username">Username</label>
                 <Input
@@ -124,17 +128,6 @@ const Register = (props) => {
                 />
               </div>
 
-              <div className="form-group">
-                <label htmlFor="email">Email</label>
-                <Input
-                  type="text"
-                  className="form-control"
-                  name="email"
-                  value={email}
-                  onChange={onChangeEmail}
-                  validations={[required, validEmail]}
-                />
-              </div>
 
               <div className="form-group">
                 <label htmlFor="password">Password</label>

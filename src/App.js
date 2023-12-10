@@ -3,7 +3,7 @@ import { Routes, Route, Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
-import AuthService from "./services/auth.service";
+import AuthService from "./services/AuthService";
 
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -13,8 +13,7 @@ import BoardUser from "./pages/BoardUser";
 import BoardCreator from "./pages/BoardCreator";
 import BoardAdmin from "./pages/BoardAdmin";
 
-// import AuthVerify from "./common/AuthVerify";
-import EventBus from "./common/EventBus";
+
 
 const App = () => {
   const [showCreatorBoard, setShowCreatorBoard] = useState(false);
@@ -26,17 +25,9 @@ const App = () => {
 
     if (user) {
       setCurrentUser(user);
-      setShowCreatorBoard(user.roles.includes("ROLE_Creator"));
-      setShowAdminBoard(user.roles.includes("ROLE_ADMIN"));
+      setShowCreatorBoard(true);
+      setShowAdminBoard(true);
     }
-
-    EventBus.on("logout", () => {
-      logOut();
-    });
-
-    return () => {
-      EventBus.remove("logout");
-    };
   }, []);
 
   const logOut = () => {
@@ -48,7 +39,7 @@ const App = () => {
 
   return (
     <div>
-      <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <nav className="navbar navbar-expand navbar-dark">
         <Link to={"/"} className="navbar-brand">
           App
         </Link>
