@@ -6,20 +6,20 @@ import SurveyService from "../services/SurveyService";
 import { SurveyCard } from "../components/surveyCard";
 
 const Profile = () => {
-  
-  const currentUser = AuthService.getCurrentUser();
-  const AllofUserSurvey = SurveyService.listAllofUserSurvey(currentUser.id)
-    .then((allSurveys) =>
-      allSurveys.map((object, i) =>
-        <
-          SurveyCard title={object.title}
-          shortDescription={object.shortDescription}
-          surveyType={object.shortDsurveyTypeescription}
-          key={i}
-        />
-      )
-    )
 
+  const currentUser = AuthService.getCurrentUser();
+  const [allOfUserSurvey, setAllOfUserSurvey] = React.useState([]);;
+  
+  const fetchSurveys = async () => {
+    const { data } = await SurveyService.listAllofUserSurvey(currentUser.id)
+    const survey = data;
+    setAllOfUserSurvey(survey);
+    console.log(survey);
+  };
+
+  React.useEffect(() => {
+    fetchSurveys();
+  }, []);
 
   return (
     <div className="container">
@@ -27,9 +27,16 @@ const Profile = () => {
         <h3>
           <strong>{currentUser.username}</strong> Profile
         </h3>
-
         <div>
-          {AllofUserSurvey}
+          {
+            allOfUserSurvey.map((object, i) =>
+              <
+                SurveyCard title={object.title}
+                shortDescription={object.shortDescription}
+                surveyType={object.shortDsurveyTypeescription}
+                key={i}
+              />)
+          }
         </div>
       </header>
     </div>
