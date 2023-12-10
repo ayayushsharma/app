@@ -18,7 +18,6 @@ const login = (username, password) => {
     })
     .then((response) => {
       if (response.data.username) {
-        // localStorage.setItem("user", JSON.stringify(response.data));
         localStorage.setItem("user", JSON.stringify(response.data));
       }
 
@@ -34,11 +33,16 @@ const getCurrentUser = () => {
   return JSON.parse(localStorage.getItem("user"));
 };
 
+const getCurrentUserId = () => {
+  return JSON.parse(localStorage.getItem("user")).id;
+};
+
 const AuthService = {
   register,
   login,
   logout,
   getCurrentUser,
+  getCurrentUserId,
 }
 
 export default AuthService;
