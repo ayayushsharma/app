@@ -15,9 +15,6 @@ const listAllofUserSurvey = (userId) => {
     .then((response) => {
       if (response.data) {
         return response.data;
-        // let allSurveys = response.data;
-
-        
       }
     });
 };

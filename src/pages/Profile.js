@@ -8,13 +8,12 @@ import { SurveyCard } from "../components/surveyCard";
 const Profile = () => {
 
   const currentUser = AuthService.getCurrentUser();
-  const [allOfUserSurvey, setAllOfUserSurvey] = React.useState([]);;
-  
+  const [allOfUserSurvey, setAllOfUserSurvey] = React.useState([<div>A</div>]);;
+
   const fetchSurveys = async () => {
-    const { data } = await SurveyService.listAllofUserSurvey(currentUser.id)
-    const survey = data;
-    setAllOfUserSurvey(survey);
-    console.log(survey);
+    const data = await SurveyService.listAllofUserSurvey(currentUser.id);
+    console.log(data);
+    setAllOfUserSurvey(await data);
   };
 
   React.useEffect(() => {
@@ -29,13 +28,23 @@ const Profile = () => {
         </h3>
         <div>
           {
-            allOfUserSurvey.map((object, i) =>
-              <
-                SurveyCard title={object.title}
-                shortDescription={object.shortDescription}
-                surveyType={object.shortDsurveyTypeescription}
-                key={i}
-              />)
+            allOfUserSurvey.map
+              ((allOfUserSurvey, i) =>
+                <SurveyCard
+                  title={allOfUserSurvey.title}
+                  shortDescription={allOfUserSurvey.shortDescription}
+                  surveyType={allOfUserSurvey.shortDsurveyTypeescription}
+                  key={i}
+                />
+              )
+
+              // [
+              //   <SurveyCard
+              //     title={'2'}
+              //     shortDescription={2}
+              //     surveyType={2}
+              //   />
+              // ]
           }
         </div>
       </header>
