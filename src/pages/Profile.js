@@ -3,7 +3,7 @@ import AuthService from "../services/AuthService";
 import SurveyService from "../services/SurveyService";
 
 
-import { SurveyCard } from "../components/surveyCard";
+import { SurveyCard } from "../components/SurveyCard";
 
 const Profile = () => {
 
